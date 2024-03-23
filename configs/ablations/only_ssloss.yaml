@@ -1,0 +1,39 @@
+device: cuda
+target_size: 256
+mlp_layers: 8
+latent_nc: 512
+encoder:
+    channels: [128,256,512,512]
+    style_merge_type:
+    eesp_block_args:
+        kernel_size: 5
+        d_rates: [1,2,4,8]
+        global_unit: attention
+        att_type: eca #required for attention global unit
+        att_args:
+            kernel_size: 9
+    input_size: 256
+    to_style: False   #whether encoding the input image into style vector
+    latent_nc: 512
+    use_mobile_vit: True
+    down_block_num: 4
+    eesp_block_num: 3
+
+generator:
+    channels: [512,512,256,128]
+    style_dim: 512
+    conv_type: ModulatedDWConv2d_v2   #ModulatedDWConv2d || ModulatedConv2d || ModulatedDWConv2d_v2 (No learned Style Modulation)
+    kernel_size: 3
+    out_act: 'tanh'
+    block_args:
+        att_type: eca
+        att_args:
+            kernel_size: 9
+        use_eesp_block: True
+        eesp_block_args:
+            kernel_size: 5
+            d_rates: [1,2,4,8]
+            global_unit: attention
+            att_type: eca #required for attention global unit
+
+

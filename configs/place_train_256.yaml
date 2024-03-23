@@ -1,0 +1,83 @@
+description: ''
+restore_training: false
+trainer: MyTrainer
+datasetName: Places
+Generator: MobileFill
+Discriminator: MultidilatedNLayerDiscriminatorWithAtt
+Teacher: MAT
+config_path: ./configs/mobilefill.yaml
+train_dataDir: /home/qfh/place_512_raw/data_large
+val_dataDir: /home/qfh/validation/Places/thick_512/imgs
+maskDir: /home/qfh/testing_mask_dataset
+val_maskDir: /home/qfh/validation/Places/thick_512/masks
+lossNetDir: ./checkpoints
+gan_teacher_path: ./src/stylegan2/checkpoint/210000.pt
+teacher_path: ./checkpoints/MAT/place/Places_512_FullData.pkl
+pl_loss_type: ResNetPL
+saveDir: ./checkpoints
+saveName: ''
+log_path: ./log
+val_saveDir: ./results
+mask_type: thick_512
+gpuIDs:
+- 2
+- 3
+num_workers: 8
+val_step: 10000
+max_val_batches: 1000
+targetSize: 512
+teacher_target_size: 512
+is_training: true
+center_crop: false
+batchSize: 6
+val_batchSize: 20
+maskType: 0
+val_maskType: 3
+max_iter: 1000000
+iteration: 0
+gan_loss_type: R1
+load_last: true
+load_from_iter: null
+debug: false
+seed: 2023
+enable_gan_aug: false
+enable_teacher: true
+enable_ema: true
+D_input_type: comp_img
+
+# log args
+print_loss_step: 50
+save_im_step: 1000
+record_training_imgs: false
+record_val_imgs: false
+
+#optimum args
+lr: 0.0006
+d_lr: 6.0e-05
+lr_steps: 4
+lr_factor: 0.95
+lr_decrease: true
+min_lr: 0.0001
+min_d_lr: 1.0e-05
+beta_g_min: 0.5
+beta_g_max: 0.9
+beta_d_min: 0
+beta_d_max: 0.9
+
+
+#loss args
+use_rec_loss: true
+use_rec_freq_loss: true
+use_gan_loss: true
+use_perc_loss: true
+use_multi_perc_loss: false
+use_mode_seeking_loss: true
+lambda_gen: 1.5
+lambda_hole: 3
+lambda_valid: 3
+lambda_perc: 4
+lambda_style: 1
+lambda_feat_mat: 1
+lambda_r1: 0.001   #0.001 || 100 for StyleGAN_Discriminator
+pcp_penalty: 0.1
+acc_steps: 4
